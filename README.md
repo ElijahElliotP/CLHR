@@ -10,10 +10,10 @@ The basic operation is as follows: setup your files (see 'Input Specifications')
 - [ASCII File to Binary Matrix](#ascii-file-to-binary-matrix)
 - [Extract Major Skeleton](#extract-major-skeleton)
 - [Shift Data Points to a Region Skeleton](#shift-data-points-to-a-region-skeleton)
-- [Connectivity Matrix](#Connectivity Matrix)
-- [Input Specifications](#Input Specifications)
-- [Output Files](#Output Files)
-- [Known Issues and Limitations](#Known Issues and Limitations)
+- [Connectivity Matrix](#connectivity-matrix)
+- [Input Specifications](#input-specifications)
+- [Output Files](#output-files)
+- [Known Issues and Limitations](#known-issues-and-limitations)
 
 ## Example Data
 A sample data set of observations of Map Turtles and Red-Eared Sliders in the Niagara River system is provided by Bryan Haas. The river system delineated here has an area of approximately 53,000 km<sup>2</sup>. This set includes 12 different sets of observations at 3 different resolutions, 10 m, 20 m and 100 m and a region file for each resolution. They have already been converted from `.shp` files into in ASCII file format with both `.txt` and `.asc` extensions for demonstration.
