@@ -1,3 +1,6 @@
+tempAscii <- read.asciigrid(paste(filepathLocation,'.txt', sep = ''),as.image = T)
+tempAscii <- read.asciigrid(paste(filepathLocation,'.txt', sep = ''),as.image = T)
+tempAscii <- read.asciigrid(paste(filepathLocation,'.txt', sep = ''),as.image = T)
 # Loading location files --------------------------------------------------------
 
 # CLHR R code, version 3.0
@@ -16,6 +19,9 @@
 # All paths in the parameter file should then be relative to that location. For example,
 # "../1.Shore/" accessed that folder.
 
+library(mmand)
+rm(list = ls())
+
 CLHRparameters = read.table("CLHR-parameters.txt", as.is = T)
 CLHRparameters
 landscapefile.fname = CLHRparameters[1,1]
@@ -26,22 +32,24 @@ observationpoints.fname = CLHRparameters[3,1]
 observationpoints.fname
 
 outputdirectory = "../3.CLHRs/"
-shorelinefolder = "1.Shoreline/"
+shorelinefolder = "1.Shoreline"
 observationfolder = "2.ObservedAnimalPoints/"
 
 afn.makedirectorystructure = function(outputdirectory,animalnickname, shorelinefolder)
 {
   animalfullpath = paste(outputdirectory, animalnickname, sep = "")
   animalfullpath
-  thecall = paste("mkdir", animalfullpath)
+  # thecall = paste("mkdir", animalfullpath)
+  thecall = animalfullpath
   thecall
-  system(thecall)
+  dir.create(thecall, recursive = T)
 
   shorelinefullpath = paste(animalfullpath,"/",shorelinefolder,sep = "")
   shorelinefullpath
-  thecall = paste("mkdir", shorelinefullpath)
+  # thecall = paste("mkdir", shorelinefullpath)
+  thecall = shorelinefullpath
   thecall
-  system(thecall)
+  dir.create(thecall, recursive = T)
 
 }
 
@@ -50,83 +58,129 @@ afn.makedirectorystructure(outputdirectory,animalnickname,shorelinefolder)
 
 ## Location
 # Enter file name of location
-filepath.location = readline("Please enter the file name of the location:") # have them enter the full path
+# filepath.location = readline("Please enter the file name of the location:") # have them enter the full path
+filepath.location = file.path('..',shorelinefolder,'5.Niagara-100m-output','niagara100moutput.txt')
 #niagara100moutput.txt
 # Enter number of rows in file
-numrowstoread = readline("Please enter the number of rows in the location file:") # instead, read this from the initial lines of the file that they specified
+# numrowstoread = readline("Please enter the number of rows in the location file:") # instead, read this from the initial lines of the file that they specified
+numrowstoread = 239
 #239
 # Uploading file
-tile = as.matrix(read.table(filepath.location, header=F, skip=6, sep=" ", nrows=as.integer(numrowstoread)))
-tile[tile==-9999] = 0
+# tile = as.matrix(read.table(filepath.location, header=F, skip=6, sep=" ", nrows=as.integer(numrowstoread)))
+tile = as.matrix(read.table(filepath.location, header = F, skip = 6, sep = " "))
+tile[tile == -9999] = 0
+tile[is.na(tile)] = 0
+
+
 # to reorient properly
-tile2 = t(apply(tile,2,rev))
-tile3 = tile2[-c(2241),]  # hack that should be removed most likely
+# tile2 = t(apply(tile,2,rev))
+# tile3 = tile2[-c(2241),]  # hack that should be removed most likely
 
 # Find dimensions
-m = dim(tile3)[1]
-n = dim(tile3)[2]
+# m = dim(tile3)[1]
+# n = dim(tile3)[2]
+m <- dim(tile)[1]
+n <- dim(tile)[2]
+diff <- m - n
+
 
 # Making a square matrix, because GRASS, which is used later, requires that it operate on a square matrix
-tile4 = tile3
-diff = m-n
-x = diff
-if (diff>0){
-  while (x!=0){
-    tile4 = cbind(tile4,0)
-    x = x-1
-  }
-} else if (diff<0){
-  while (x!=0){
-    tile4 = rbind(tile4,0)
-    x = x+1
-  }
-}
+# tile4 = tile3
+# # diff = m-n
+# # x = diff
+# if (diff>0){
+#   while (x!=0){
+#     tile4 = cbind(tile4,0)
+#     x = x-1
+#   }
+# } else if (diff<0){
+#   while (x!=0){
+#     tile4 = rbind(tile4,0)
+#     x = x+1
+#   }
+# }
 
 ## Rasterize tile4
 #install.packages("raster")
 library(raster)
 
-rastertile4 = raster(tile4)
+# rastertile4 = raster(tile4)
 # Write raster to file
-filename.tile4 = readline("Please enter the desired file name of the output for Step 2:") # Remove this choice, and just write it out to 1.whichturtle/1.shoreline
+# filename.tile4 = readline("Please enter the desired file name of the output for Step 2:") # Remove this choice, and just write it out to 1.whichturtle/1.shoreline
+# filename.tile4 = file.path(outputdirectory,animalnickname,shorelinefolder,'tile4.asc')
 #tile4.asc
-rf = writeRaster(rastertile4, filename=filename.tile4, overwrite=TRUE)
+# rf = writeRaster(rastertile4, filename=filename.tile4, overwrite=TRUE)
 
-# Eroding raster to skeleton ----------------------------------------------
+# OLD Eroding raster to skeleton ----------------------------------------------
 
 #install.packages("spgrass6")
-library(spgrass6)
+### library(spgrass6)
 
-# Location of GRASS installation:
-## JC says our ideal is " running R stand-alone and creating a throw-away GRASS environment from within R"
-loc = initGRASS("C:\\Program Files (x86)\\GRASS GIS 6.4.4", home=tempdir(), override = TRUE)
-loc
+### # Location of GRASS installation:
+### ## JC says our ideal is " running R stand-alone and creating a throw-away GRASS environment from within R"
+### loc = initGRASS("C:\\Program Files (x86)\\GRASS GIS 6.4.4", home=tempdir(), override = TRUE)
+### loc
+###
+###
+### # Import the file to GRASS:
+### parseGRASS("r.in.gdal") # commmand description
+### execGRASS("r.in.gdal", flags="o", parameters=list(input=filename.tile4, output="tile4"))
+### execGRASS("g.region", parameters=list(rast="tile4"))
+### gmeta6()
+###
+###
+###
+### # Thin the raster map so it can be converted to vectors:
+### execGRASS("r.thin", parameters=list(input="tile4", output="tile4thin"))
+### tile4thin = readRAST6("tile4thin")
+### square.rast.skeleton = as.matrix(tile4thin)
+### square.rast.skeleton[is.na(square.rast.skeleton)] = 0
+###
+### # Reorient
+### square.rast.skeleton = t(square.rast.skeleton)
+###
+### # Return to original dimensions
+### rast.skeleton = square.rast.skeleton
+### if (diff>0){
+###   rast.skeleton = rast.skeleton[,-(n+1:m)]
+### } else if (diff<0){
+###   rast.skeleton = rast.skeleton[-(m+1:n),]
+### }
 
+# NEW Eroding raster to skeleton ----------------------------------------------
 
-# Import the file to GRASS:
-parseGRASS("r.in.gdal") # commmand description
-execGRASS("r.in.gdal", flags="o", parameters=list(input=filename.tile4, output="tile4"))
-execGRASS("g.region", parameters=list(rast="tile4"))
-gmeta6()
+skeletonise3_2d.fn <- function(x)
+{
+  k1 <- matrix(c(0,NA,1,0,1,1,0,NA,1), 3, 3)
+  k2 <- matrix(c(NA,1,NA,0,1,1,0,0,NA), 3, 3)
+  rot.fn <- function(x) {t(apply(x, 2, rev))}
+  hom <- function(x,k) morph(x, k, operator = "==", merge = "all", value = 1)
 
+  repeat
+  {
+    previous <- x
+    for (i in 1:4)
+    {
+      x <- x & !hom(x,k1)
+      storage.mode(x) <- "integer"
+      x <- x & !hom(x,k2)
+      storage.mode(x) <- "integer"
+      k1 <- rot.fn(k1)
+      k2 <- rot.fn(k2)
+    }
 
-
-# Thin the raster map so it can be converted to vectors:
-execGRASS("r.thin", parameters=list(input="tile4", output="tile4thin"))
-tile4thin = readRAST6("tile4thin")
-square.rast.skeleton = as.matrix(tile4thin)
-square.rast.skeleton[is.na(square.rast.skeleton)] = 0
-
-# Reorient
-square.rast.skeleton = t(square.rast.skeleton)
-
-# Return to original dimensions
-rast.skeleton = square.rast.skeleton
-if (diff>0){
-  rast.skeleton = rast.skeleton[,-(n+1:m)]
-} else if (diff<0){
-  rast.skeleton = rast.skeleton[-(m+1:n),]
+    if (isTRUE(all.equal(x, previous)))
+      return(x)
+  }
 }
+
+tileRas <- raster(tile)
+plot(tileRas, main = 'original')
+
+rast.skeleton <- skeletonise3_2d.fn(tile)
+skelRas <- raster(rast.skeleton)
+plot(skelRas, main = 'skelaton_3_2d')
+
 
 # Counting joints and counting skeleton pixels
 skeleton = rast.skeleton
@@ -186,7 +240,8 @@ for (i in 1:m){
 
 ## Sample data
 # Enter file name of data points
-filepath.data = readline("Please enter the file name of the data points:")
+# filepath.data = readline("Please enter the file name of the data points:")
+filepath.data = file.path('2.Turtles','cq100output','cq100moutput.txt')
 #cq100moutput.txt
 #cq13100moutput.txt
 #cw13100moutput.txt
@@ -200,18 +255,20 @@ filepath.data = readline("Please enter the file name of the data points:")
 #hv100moutput.txt
 #hw100moutput.txt
 # Enter number of rows in file
-numrowstoread = readline("Please enter the number of rows in the data points file:")
+# numrowstoread = readline("Please enter the number of rows in the data points file:")
+numrowstoread = dim(skeleton)[1]
 #239
 # Upload file
 sdata = as.matrix(read.table(filepath.data, header=F, skip=6, sep=" ", nrows=as.integer(numrowstoread)))
 sdata[sdata==-9999] = 0
 # to reorient properly
-sdata2 = t(apply(sdata,2,rev))
-sdata3 = sdata2[-c(2241),]
+# sdata2 = t(apply(sdata,2,rev))
+# sdata3 = sdata2[-c(2241),]
 
 # Map to be exported
-map = tile3
-map[sdata3==1] = 10
+map = tile
+# map[sdata3==1] = 10
+map[sdata==1] = 10
 map[map==1] = 11
 map[map==0] = 12
 
@@ -228,7 +285,8 @@ dev.off()
 data = matrix(0, m, n)
 for (i in 1:m){
   for (j in 1:n){
-    if (sdata3[i,j]==1){
+    # if (sdata3[i,j]==1){
+    if (sdata[i,j]==1){
       minD = Inf
       for (k in 1:m){
         for (l in 1:n){
