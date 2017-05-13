@@ -3,7 +3,8 @@ The `clhr` package uses kernel-based image processing and weighted, undirected g
 
 New in this release is the switch away from `GRASS` (Geographic Resources Analysis Support System) to [`mmand`][mmand] (Mathematical Morphology in Any Number of Dimensions) by Jon Clayden, to perform the required skeletonisation.
 
-The basic operation is as follows: setup your files (see 'Input Specifications'), configure your preferences text (an example is included in the text itself), and then run (source) the `CLHR-Rscript.R` script.
+### Basic Operation
+The basic operation is as follows: set-up your files (see [Input Specifications](#input-specifications)), configure your preferences text (an example is included in the text itself), and then run (source) the `CLHR-Rscript.R` script.
 
 ## Contents
 - [Example Data](#example-Data)
@@ -24,8 +25,8 @@ Above: The Region of Interest courtesy of Google Earth and DigitalGlobe.
 `prepASCtoMatrix.fn` serves to ‘clean up’ and convert `nodata` and `NA` values the ascii file might have, as well as convert any non-zero presence values to 1, giving a binary matrix as the name implies.
 
 ```R
-regionTile <- prepASCtoMatrix.fn(“2.Turtle/hk20output/hk20output.asc”)
-rastertile <- copySourceGeoSpatToRas.fn(regionTile, “2.Turtle/hk20output/hk20output.asc”)
+regionTile <- prepASCtoMatrix.fn('2.Turtle/hk20output/hk20output.asc')
+rastertile <- copySourceGeoSpatToRas.fn(regionTile, '2.Turtle/hk20output/hk20output.asc')
 plot(rastertile, col = c('white', 'black'))
 ```
 ![The River System in ASCII](http://i.imgur.com/jPoPGDQ.png)
@@ -34,10 +35,10 @@ The river system of the Niagara region at 20 m resolution, from the provided `.a
 
 ## Extract Major Skeleton
 In addition to extracting the centreline or skeleton for the image, we need that skeleton to be a single unbroken line. Instead of throwing an error in the case of non-contiguous regions, the workaround is to keep the largest portion of the potential home-range and collapse all the individual location points to that line. This tool is partially powered by the [`components()`](https://github.com/jonclayden/mmand#connected-components) function in the [mmand package by Jon Clayden][mmand] which can identify and group parts of an image based on their adjacency.
-See ‘Known Issues’ for more on this.
+See [Known Issues and Limitations](#known-issues-and-limitations) for more on this.
 
 ### Skeletonisation with mmand
-Switching to [`skeletonise()`](https://github.com/jonclayden/mmand#skeletonisation) in [mmand][mmand], away from the GRASS tool `r.thin`, is the principal change to the way this script functions. This allows the user to stay within R and use easily installable libraries. Briefly, this function (as used here) erodes binary matrices using [hit-or-miss transform][homt] and a pair of 3x3 kernels until only a centerline remains.
+Switching to [`skeletonise()`](https://github.com/jonclayden/mmand#skeletonisation) in [mmand][mmand], away from the GRASS tool `r.thin`, is the principal change to the way this script functions. This allows the user to stay within R and use easily installable libraries. Briefly, this function (as used here) erodes binary matrices using [hit-or-miss transform][homt] and a pair of 3x3 kernels until only a centreline remains.
 
 ```R
 majorSkeleton <- extractMajorSkeleton.fn(regionTile)
@@ -63,7 +64,7 @@ plot(map2Ras, col = c('red', 'black', ‘white’)
 Now in orange, the observation points have been shifted onto the nearest points on the skeleton.
 
 ## From Start to Finish
-The final operations are still grouped together inside `calculateTheMinimumSpanningTree.fn()` and neither they nor it should be called directly (it's still quite messy). Instead, setup your files, configure your preferences text, and then run (source) the script so that all the bookkeeping is done for you. Eventually all intermediate steps will be compartmentalised to facility other uses.
+The final operations are still grouped together inside `calculateTheMinimumSpanningTree.fn()` and neither they nor it should be called directly (it's still quite messy). Instead, set-up your files, configure your preferences text, and then run (source) the script so that all the bookkeeping is done for you. Eventually all intermediate steps will be compartmentalised to facility other uses.
 
 ![The MST](http://i.imgur.com/mkVGEQh.png)
 
@@ -78,7 +79,7 @@ In order to work with graphs using [`igraph`](https://github.com/igraph/igraph),
 ## Input Specifications
 -	‘Region’ and ‘Individual’ folders should be in the same folder as the script files.
 -	Images must be projected in UTM.
--	Ascii files, like those from ArcGIS, should be accompanied by a `.prj` file
+-	ASCII files, like those from ArcGIS, should be accompanied by a `.prj` file
     -	They may have either a `.asc` or `.txt` extension, but do not mix them.
 -	Region folders and their files must have the same name.
 -	‘Individual' folders and files must have the same name.
@@ -93,7 +94,7 @@ In order to work with graphs using [`igraph`](https://github.com/igraph/igraph),
 Please excuse the 'output' in the folder names, that is leftover from converting the files into ASCII format.
 
 ## Output Files
-The script provides automatic generation of .asc files and geoTiff files with the appropriate spatial information (the `.asc` files are accompanied by a `.prj`). As well it can be helpful to look at the matrix at many different stages, so a simple `.csv` can be output for the regions and the individuals. One text file per individual is written out with the MST and a `.csv` file is made in the root folder to have all the MSTs tabulated. All of the output files will be found in the output folder specified in the configuration file, inside of the folder with the corresponding resolution number. There is also going to be a `.done` file in each individual’s folder. This is to facilitate faster recovery time if something goes wrong. To redo an individual, you must delete that this.
+The script provides automatic generation of `.asc` files and geoTiff files with the appropriate spatial information (the `.asc` files are accompanied by a `.prj`). As well it can be helpful to look at the matrix at many different stages, so a simple `.csv` can be output for the regions and the individuals. One text file per individual is written out with the MST and a `.csv` file is made in the root folder to have all the MSTs tabulated. All of the output files will be found in the output folder specified in the configuration file, inside of the folder with the corresponding resolution number. There is also going to be a `.done` file in each individual’s folder. This is to facilitate faster recovery time if something goes wrong. To redo an individual, you must delete that this.
 
 ### Example Output Folder Structure
 ![Example Output Folders](http://i.imgur.com/SrVlTSh.png)
