@@ -1,6 +1,19 @@
 # Complex Linear Home Range Estimator
 The `clhr` package uses kernel-based image processing and weighted, undirected graphs to establish a consistent and repeatable method of estimating complex linear home ranges for species living in rivers and around island systems. This process was first automated with R by Nicole McLaren in 2015 under the supervision of Jeff Cardille based on the paper by Ouellette and Cardille from 2011, _The Complex Linear Home Range Estimator: Representing the Home Range of River Turtles Moving in Multiple Channels_. More generally this package allows the user to compare the lengths of sets of points in network systems.
+
 New in this release is the switch away from `GRASS` (Geographic Resources Analysis Support System) to [`mmand`][mmand] (Mathematical Morphology in Any Number of Dimensions) by Jon Clayden, to perform the required skeletonisation.
+
+The basic operation is as follows: setup your files (see 'Input Specifications'), configure your preferences text (an example is included in the text itself), and then run (source) the `CLHR-Rscript.R` script.
+
+## Contents
+- [Example Data](#example-Data)
+- [ASCII File to Binary Matrix](#ascii-file-to-binary-matrix)
+- [Extract Major Skeleton](#extract-major-skeleton)
+- [Shift Data Points to a Region Skeleton](#shift-data-points-to-a-region-skeleton)
+- [Connectivity Matrix](#Connectivity Matrix)
+- [Input Specifications](#Input Specifications)
+- [Output Files](#Output Files)
+- [Known Issues and Limitations](#Known Issues and Limitations)
 
 ## Example Data
 A sample data set of observations of Map Turtles and Red-Eared Sliders in the Niagara River system is provided by Bryan Haas. The river system delineated here has an area of approximately 53,000 km<sup>2</sup>. This set includes 12 different sets of observations at 3 different resolutions, 10 m, 20 m and 100 m and a region file for each resolution. They have already been converted from `.shp` files into in ASCII file format with both `.txt` and `.asc` extensions for demonstration.
