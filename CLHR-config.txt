@@ -1,0 +1,27 @@
+#### This is an example Configuration
+#
+#   f.writeCSV         <- T # Helpful in debugging; For a quick look at small files
+#   f.writeASC         <- F #
+#   f.writeGeoTIF      <- F #
+#   f.drawMaps         <- T # Plot to the active device; High resolution regions can appear to have broken skeletons
+#   f.writeResultText  <- T # Very inexpensive in terms of resources, no reason to disable
+#   regionFolder        <- '1.Shore' # All region .asc files should be in subfolders within this one
+#   individualsFolder   <- '2.Turtles' # all individual folders should be in this one
+#   CLHRDirectory       <- '3.CLHRs' # desired output folder
+#   ascExtension        <- '.txt' # Accepts '.txt' or '.asc'
+#   resolutions         <- c(100) # Used in the calculation of total distance
+# but it could be used as a simple matching ID in which case ignore 'MST Distance' and use pixel lengths
+# for your calculations.
+#
+#### Set preferences below
+
+f.writeCSV          <- T
+f.writeASC          <- T
+f.writeGeoTIF       <- T
+f.drawMaps          <- T
+f.writeResultText   <- T
+regionFolder        <- '1.Shore'
+individualsFolder   <- '2.Turtles'
+CLHRDirectory       <- '3.CLHRs'
+ascExtension        <- '.asc'
+resolutions         <- c(100)
