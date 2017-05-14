@@ -4,7 +4,7 @@ The `clhr` package uses kernel-based image processing and weighted, undirected g
 New in this release is the switch away from `GRASS` (Geographic Resources Analysis Support System) to [`mmand`][mmand] (Mathematical Morphology in Any Number of Dimensions) by Jon Clayden, to perform the required skeletonisation.
 
 ### Basic Operation
-The basic operation is as follows: set-up your files (see [Input Specifications](#input-specifications)), configure your preferences text (an example is included in the text itself), and then run (source) the `CLHR-Rscript.R` script.
+The basic operation is as follows: download this repository to your workspace, set-up your files (see [Input Specifications](#input-specifications)), configure your preferences text (an example is included in the text itself), and then run (source) the `CLHR-Rscript.R` script.
 
 ## Contents
 - [Example Data](#example-Data)
@@ -47,7 +47,7 @@ plot(skelRas, col = c('white', 'black')
 ```
 ![The Major Skeleton](http://i.imgur.com/Kmw1dmC.png)
 
-The Extracted Major Skeleton: Because of the relatively fine lines produced, the skeleton for the 20 m resolution would appear broken at this scale.  The skeleton is overlaid on the original region and the depicted line in the 100 m resolution for clarity. Often branches or “spurs” can occur during skeletonisation. These are exaggerations of features, typically protrusions, from the original shape and can be expected; they are a consequence of the method of skeletonisation. By its nature a Minimum Spanning Tree (MST), the line connecting all of our points of interest, ignores these features.
+Because of the relatively fine lines produced, the skeleton for the 20 m resolution would appear broken at this scale.  The skeleton is overlaid on the original region and the depicted line in the 100 m resolution for clarity. Often branches or “spurs” can occur during skeletonisation. These are exaggerations of features, typically protrusions, from the original shape and can be expected; they are a consequence of the method of skeletonisation. By its nature a Minimum Spanning Tree (MST), the line connecting all of our points of interest, ignores these features.
     
 ## Shift Data Points to a Region Skeleton
 Given a binary presence map and a binary skeleton, it is then necessary to associate each presence point with the nearest location on the skeleton of the river system. This is done by comparing the location of every individual with every point on the skeleton in a ‘moving window’ fashion. The result is a new ‘presence’ layer that resembles the skeleton populated with observations and a new object in the global environment called shiftedPoints that is to be passed to subsequent CLHR operations.
@@ -83,7 +83,7 @@ In order to work with graphs using [`igraph`](https://github.com/igraph/igraph),
     -	They may have either a `.asc` or `.txt` extension, but do not mix them.
 -	Region folders and their files must have the same name.
 -	‘Individual' folders and files must have the same name.
--	The region folders must share a unique number in common with the individuals' folders.
+-	The region folders must share a unique number in common with the associated individuals' folders.
     - This does not necessarily have to be a resolution, only a unique ID. In this case, you must multiply the MST pixel values by the desired resolution.
 -	All ‘individual' folders go together in the user-specified containing folder
     - This allows iteration among different individuals in the same region.
@@ -91,10 +91,10 @@ In order to work with graphs using [`igraph`](https://github.com/igraph/igraph),
 ### Example Input Folder Structure
 ![Example Input Folders](http://i.imgur.com/9w6rIyY.png)
 
-Please excuse the 'output' in the folder names, that is leftover from converting the files into ASCII format.
+Note: here the 'output' in the folder names is leftover from converting the files into ASCII format.
 
 ## Output Files
-The script provides automatic generation of `.asc` files and geoTiff files with the appropriate spatial information (the `.asc` files are accompanied by a `.prj`). As well it can be helpful to look at the matrix at many different stages, so a simple `.csv` can be output for the regions and the individuals. One text file per individual is written out with the MST and a `.csv` file is made in the root folder to have all the MSTs tabulated. All of the output files will be found in the output folder specified in the configuration file, inside of the folder with the corresponding resolution number. There is also going to be a `.done` file in each individual’s folder. This is to facilitate faster recovery time if something goes wrong. To redo an individual, you must delete that this.
+The script provides automatic generation of `.asc` files and geoTiff files with the appropriate spatial information (the `.asc` files are accompanied by a `.prj`). As well it can be helpful to look at the matrix at many different stages, so a simple `.csv` can be output for the regions and the individuals. One text file per individual is written out with the MST and a `.csv` file is made in the root folder to have all the MSTs tabulated. All of the output files will be found in the output folder specified in the configuration file, inside of the folder with the corresponding resolution number. There is also going to be a `.done` file in each individual’s folder. This is to facilitate faster recovery time if something goes wrong. To redo an individual, you must delete this file.
 
 ### Example Output Folder Structure
 ![Example Output Folders](http://i.imgur.com/SrVlTSh.png)
