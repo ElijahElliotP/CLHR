@@ -26,11 +26,11 @@ copySourceGeoSpatToRas.fn <- function(targetMat, source) {
 
 rasterToGTIFF.fn <- function(x, directiory, indiv, res, suffix) {
   SPDF <- as(x, 'SpatialPixelsDataFrame')
-  writeGDAL(SPDF, fname = paste(directiory, '/', indiv, '-', suffix, '.tif', sep = ''), drivername = 'GTiff', type = 'Byte', mvFlag = 0, options = "TFW=YES")
+  writeGDAL(SPDF, fname = str_c(directiory, '/', indiv, '-', suffix, '.tif', sep = ''), drivername = 'GTiff', type = 'Byte', mvFlag = 0, options = "TFW=YES")
 }
 
 matrixToSimpleCSV.fn <- function(x, directory, indiv, res, suffix) {
-  write.table(x, file = paste(directory, '/', indiv, '-', suffix, '.csv', sep = ''), append = F, sep = ',', row.names = F, col.names = F)
+  write.table(x, file = str_c(directory, '/', indiv, '-', suffix, '.csv', sep = ''), append = F, sep = ',', row.names = F, col.names = F)
 }
 
 writeOutAsc.fn <- function(x, directory, indiv, res, suffix) {
