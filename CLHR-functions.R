@@ -1,6 +1,6 @@
 prepASCtoMatrix.fn <- function(tileFile) {
   # x <- locationFilename
-  x <- as.matrix(read.table(file = tileFile, header = F, skip = 6, sep = " "))
+  x <- as.matrix(read.table(file = tileFile, header = F, skip = 6, sep = ' '))
   x[x == -9999] = 0
   x <- as.data.table(x) # was recommended to reduce system load for large data frames
   x <- x[, which(unlist(lapply(x, function(x)!all(is.na(x))))), with = F]
@@ -8,9 +8,9 @@ prepASCtoMatrix.fn <- function(tileFile) {
   binarise(x)
 }
 
-extractMajorSkeleton.fn <- function(x, kernel = shapeKernel(c(3,3), type = "box")) {
+extractMajorSkeleton.fn <- function(x, kernel = shapeKernel(c(3,3), type = 'box')) {
   chunks <- components(x, kernel)
-  sort(table(chunks), decreasing = T)
+  # sort(table(chunks), decreasing = T)
   chunksMaxVal <- as.integer(row.names(as.matrix(sort(table(chunks), decreasing = T))))[1]
   chunksMajComponent <- (chunks == chunksMaxVal)*1
   chunksMajComponent[is.na(chunksMajComponent)] <- 0
@@ -24,17 +24,17 @@ copySourceGeoSpatToRas.fn <- function(targetMat, source) {
   return(rasTarget)
 }
 
-rasterToGTIFF.fn <- function(x, directiory, indiv, res, suffix) {
+rasterToGTIFF.fn <- function(x, dir = getwd(), indiv = NULL, suffix = NULL) {
   SPDF <- as(x, 'SpatialPixelsDataFrame')
-  writeGDAL(SPDF, fname = paste(directiory, '/', indiv, '-', suffix, '.tif', sep = ''), drivername = 'GTiff', type = 'Byte', mvFlag = 0, options = "TFW=YES")
+  writeGDAL(SPDF, fname = str_c(dir, '/', indiv, '-', suffix, '.tif', sep = ''), drivername = 'GTiff', type = 'Byte', mvFlag = 0, options = 'TFW=YES')
 }
 
-matrixToSimpleCSV.fn <- function(x, directory, indiv, res, suffix) {
-  write.table(x, file = paste(directory, '/', indiv, '-', suffix, '.csv', sep = ''), append = F, sep = ',', row.names = F, col.names = F)
+matrixToSimpleCSV.fn <- function(x, dir = getwd(), indiv = NULL, suffix = NULL) {
+  write.table(x, file = str_c(dir, '/', indiv, '-', suffix, '.csv', sep = ''), append = F, sep = ',', row.names = F, col.names = F)
 }
 
-writeOutAsc.fn <- function(x, directory, indiv, res, suffix) {
-  writeRaster(x, filename = str_c(directory, '/', indiv, '-', suffix, '.asc', collapse = T), format = "ascii", datatype = "INT1U", overwrite = T, prj = T)
+writeOutAsc.fn <- function(x, dir = getwd(), indiv = NULL, suffix = NULL) {
+  writeRaster(x, filename = str_c(dir, '/', indiv, '-', suffix, '.asc', collapse = T), format = 'ascii', datatype = 'INT1U', overwrite = T, prj = T)
 }
 
 sink.reset <- function() { # courtsey of Dason from Wesley Chapel, Florida via Stackoverflow.com
