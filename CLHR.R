@@ -100,13 +100,13 @@ for (pRS in seq_along(resolutions)) {
       plot(rastertile, col = c('green', 'blue'), main = 'Region - Full', xlab = "Easting", ylab = "Northing", legend = F)
     }
     if (f.writeGeoTIF) { # Write location to gtif
-      rasterToGTIFF.fn(rastertile, theDir, "Region", RS, 'full')
+      rasterToGTIFF.fn(rastertile, theDir, "Region", 'full')
     }
     if (f.writeCSV) { # Write location to csv
-      matrixToSimpleCSV.fn(regionTile, theDir, "Region", RS, 'full')
+      matrixToSimpleCSV.fn(regionTile, theDir, "Region", 'full')
     }
     if (f.writeASC) {
-      writeOutAsc.fn(rastertile, theDir, "Region", RS, 'full')
+      writeOutAsc.fn(rastertile, theDir, "Region", 'full')
     }
   }
 
@@ -125,13 +125,13 @@ for (pRS in seq_along(resolutions)) {
       plot(skelRas, col = c('green', 'blue'), main = 'Region - Skeleton', xlab = "Easting", ylab = "Northing", legend = F)
     }
     if (f.writeGeoTIF) { # Write majorSkeleton to gtif
-      rasterToGTIFF.fn(skelRas, theDir, "Region", RS, 'skeleton')
+      rasterToGTIFF.fn(skelRas, theDir, "Region", 'skeleton')
     }
     if (f.writeCSV) { # Write majorSkeleton to csv
-      matrixToSimpleCSV.fn(majorSkeleton, theDir, "Region", RS, 'skeleton')
+      matrixToSimpleCSV.fn(majorSkeleton, theDir, "Region", 'skeleton')
     }
     if (f.writeASC) {
-      writeOutAsc.fn(skelRas, theDir, "Region", RS, 'skeleton')
+      writeOutAsc.fn(skelRas, theDir, "Region", 'skeleton')
     }
   }
 
@@ -180,13 +180,13 @@ for (pRS in seq_along(resolutions)) {
              xlab = "Easting", ylab = "Northing", col = c('white', 'red'), legend = F)
       }
       if (f.writeGeoTIF) { # Write the observation points to gtif
-        rasterToGTIFF.fn(sdataRas, theDir, indivNickname, RS, 'ObsPtsOnly')
+        rasterToGTIFF.fn(sdataRas, theDir, indivNickname, 'ObsPtsOnly')
       }
       if (f.writeCSV) { # Write the observation points to csv
-        matrixToSimpleCSV.fn(sdata, theDir, indivNickname, RS, 'ObsPtsOnly')
+        matrixToSimpleCSV.fn(sdata, theDir, indivNickname, 'ObsPtsOnly')
       }
       if (f.writeASC) { # Write the observation points to asc
-        writeOutAsc.fn(sdataRas, theDir, indivNickname, RS, 'ObsPtsOnly')
+        writeOutAsc.fn(sdataRas, theDir, indivNickname, 'ObsPtsOnly')
       }
     }
 
@@ -210,13 +210,13 @@ for (pRS in seq_along(resolutions)) {
              xlab = "Easting", ylab = "Northing", col = c('red', 'blue', 'green'), legend = F)
       }
       if (f.writeGeoTIF) { # Write Obs-Points-on-Landscape to gtif
-        rasterToGTIFF.fn(mapRas, theDir, indivNickname, RS, 'IndividualsInRegion')
+        rasterToGTIFF.fn(mapRas, theDir, indivNickname, 'IndividualsInRegion')
       }
       if (f.writeCSV) { # Write Obs-Points-on-Landscape to csv
-        matrixToSimpleCSV.fn(mapIndivsOnLandFull, theDir, indivNickname, RS, 'IndividualsInRegion')
+        matrixToSimpleCSV.fn(mapIndivsOnLandFull, theDir, indivNickname, 'IndividualsInRegion')
       }
       if (f.writeASC) { # Write Obs-Points-on-Landscape to asc
-        writeOutAsc.fn(mapRas, theDir, indivNickname, RS, 'IndividualsInRegion')
+        writeOutAsc.fn(mapRas, theDir, indivNickname, 'IndividualsInRegion')
       }
     }
 
@@ -237,13 +237,13 @@ for (pRS in seq_along(resolutions)) {
              xlab = "Easting", ylab = "Northing", col = c('red', 'blue', 'green'), legend = F)
       }
       if (f.writeGeoTIF) { # Write Obs Points on the Skeleton to gtif
-        rasterToGTIFF.fn(map2Ras, theDir, indivNickname, RS, 'LocationsOnSkeleton')
+        rasterToGTIFF.fn(map2Ras, theDir, indivNickname, 'LocationsOnSkeleton')
       }
       if (f.writeCSV) { # Write Obs Points on the Skeleton to csv
-        matrixToSimpleCSV.fn(mapIndivsOnLandSkel, theDir, indivNickname, RS, 'LocationsOnSkeleton')
+        matrixToSimpleCSV.fn(mapIndivsOnLandSkel, theDir, indivNickname, 'LocationsOnSkeleton')
       }
       if (f.writeASC) { # Write Obs-Points-on-Landscape to asc
-        writeOutAsc.fn(map2Ras, theDir, indivNickname, RS, 'LocationsOnSkeleton')
+        writeOutAsc.fn(map2Ras, theDir, indivNickname, 'LocationsOnSkeleton')
       }
     }
 
@@ -275,13 +275,13 @@ for (pRS in seq_along(resolutions)) {
              xlab = "Easting", ylab = "Northing", col = c('red', 'pink', 'blue', 'green'), legend = F)
       }
       if (f.writeGeoTIF) { # Write MST and data points on skeleton to gtif
-        rasterToGTIFF.fn(map3Ras, theDir, indivNickname, RS, 'MST')
+        rasterToGTIFF.fn(map3Ras, theDir, indivNickname, 'MST')
       }
       if (f.writeCSV) { # Write MST and data points on skeleton to csv
-        matrixToSimpleCSV.fn(mapIndivsOnMST, theDir, indivNickname, RS, 'MST')
+        matrixToSimpleCSV.fn(mapIndivsOnMST, theDir, indivNickname, 'MST')
       }
       if (f.writeASC) {
-        writeOutAsc.fn(map3Ras, theDir, indivNickname, RS, 'MST')
+        writeOutAsc.fn(map3Ras, theDir, indivNickname, 'MST')
       }
 
       # Output distance of MST ####
