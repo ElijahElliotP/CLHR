@@ -49,7 +49,7 @@ for (pRS in seq_along(resolutions)) {
 
   RS <- resolutions[pRS]
   dir.create(file.path(CLHRDirectory, RS), showWarnings = F, recursive = T)
-  regionMSTFile <- paste(file.path(CLHRDirectory, RS), '/', RS, "-Region-MSTs.csv", sep = '')
+  regionMSTFile <- str_c(file.path(CLHRDirectory, RS), '/', RS, "-Region-MSTs.csv", sep = '')
     if (!file.exists(regionMSTFile)) {
     sink(file = regionMSTFile)
     cat('Individual,MST_Lengths_(px),MST_Distance_(m)\n')
@@ -72,7 +72,7 @@ for (pRS in seq_along(resolutions)) {
   locationFilepath <- file.path(regionFolder, currentFolder)
   locationFilename <- str_c(locationFilepath, '/', currentFolder, ascExtension, sep = '')
   cat('Starting:', locationFilename)
-  plot(1, main = paste('Region Resolution:', RS, sep = " "), type = "n", axes = F, xlab = "", ylab = "")
+  plot(1, main = str_c('Region Resolution:', RS, sep = " "), type = "n", axes = F, xlab = "", ylab = "")
 
   # Import location ----------------------------------------------------------------
   regionTile <- tryCatch({
