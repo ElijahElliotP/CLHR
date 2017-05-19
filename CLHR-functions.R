@@ -10,7 +10,7 @@ prepASCtoMatrix.fn <- function(tileFile) {
 
 extractMajorSkeleton.fn <- function(x, kernel = shapeKernel(c(3,3), type = 'box')) {
   chunks <- components(x, kernel)
-  sort(table(chunks), decreasing = T)
+  # sort(table(chunks), decreasing = T)
   chunksMaxVal <- as.integer(row.names(as.matrix(sort(table(chunks), decreasing = T))))[1]
   chunksMajComponent <- (chunks == chunksMaxVal)*1
   chunksMajComponent[is.na(chunksMajComponent)] <- 0
