@@ -17,7 +17,7 @@ The basic operation is as follows: download this repository to your workspace, s
 - [Known Issues and Limitations](#known-issues-and-limitations)
 
 ## Example Data
-A sample data set of observations of Map Turtles and Red-Eared Sliders in the Niagara River system is provided by Bryan Haas. The river system delineated here has an area of approximately 53,000 km<sup>2</sup>. This set includes 12 different sets of observations at 3 different resolutions, 10 m, 20 m and 100 m and a region file for each resolution. They have already been converted from `.shp` files into in ASCII file format with both `.txt` and `.asc` extensions for demonstration.
+A sample data set of observations of Map Turtles and Red-Eared Sliders in the Niagara River system is provided by Bryan Haas. The river system delineated here has an area of approximately 53,000 km<sup>2</sup>. This set includes 12 different sets of observations at 3 different resolutions, 10 m, 20 m and 100 m and a region file for each resolution. They have already been converted from _.shp_ files into in ASCII file format with both _.txt_ and _.asc_ extensions for demonstration.
 ![Niagara Region Rivers](http://i.imgur.com/BeyDkW8.jpg)
 Above: The Region of Interest courtesy of Google Earth and DigitalGlobe.
 
@@ -31,7 +31,7 @@ plot(rastertile, col = c('white', 'black'))
 ```
 ![The River System in ASCII](http://i.imgur.com/jPoPGDQ.png)
 
-The river system of the Niagara region at 20 m resolution, from the provided `.asc` file. At this resolution the entire dataset (all 12 observation sets) takes a couple of hours to run.
+The river system of the Niagara region at 20 m resolution, from the provided _.asc_ file. At this resolution the entire dataset (all 12 observation sets) takes a couple of hours to run.
 
 ## Extract Major Skeleton
 In addition to extracting the centreline or skeleton for the image, we need that skeleton to be a single unbroken line. Instead of throwing an error in the case of non-contiguous regions, the workaround is to keep the largest portion of the potential home-range and collapse all the individual location points to that line. This tool is partially powered by the [`components()`](https://github.com/jonclayden/mmand#connected-components) function in the [mmand package by Jon Clayden][mmand] which can identify and group parts of an image based on their adjacency.
@@ -79,8 +79,8 @@ In order to work with graphs using [`igraph`](https://github.com/igraph/igraph),
 ## Input Specifications
 -	‘Region’ and ‘Individual’ folders should be in the same folder as the script files.
 -	Images must be projected in UTM.
--	ASCII files, like those from ArcGIS, should be accompanied by a `.prj` file
-    -	They may have either a `.asc` or `.txt` extension, but do not mix them.
+-	ASCII files, like those from ArcGIS, should be accompanied by a _.prj_ file
+    -	They may have either a _.asc_ or _.txt_ extension, but do not mix them.
 -	Region folders and their files must have the same name.
 -	‘Individual' folders and files must have the same name.
 -	The region folders must share a unique number in common with the associated individuals' folders.
@@ -94,7 +94,7 @@ In order to work with graphs using [`igraph`](https://github.com/igraph/igraph),
 Note: here the 'output' in the folder names is leftover from converting the files into ASCII format.
 
 ## Output Files
-The script provides automatic generation of `.asc` files and geoTiff files with the appropriate spatial information (the `.asc` files are accompanied by a `.prj`). As well it can be helpful to look at the matrix at many different stages, so a simple `.csv` can be output for the regions and the individuals. One text file per individual is written out with the MST and a `.csv` file is made in the root folder to have all the MSTs tabulated. All of the output files will be found in the output folder specified in the configuration file, inside of the folder with the corresponding resolution number. There is also going to be a `.done` file in each individual’s folder. This is to facilitate faster recovery time if something goes wrong. To redo an individual, you must delete this file.
+The script provides automatic generation of _.asc_ files and geoTiff files with the appropriate spatial information (the _.asc_ files are accompanied by a _.prj_). As well it can be helpful to look at the matrix at many different stages, so a simple _.csv_ can be output for the regions and the individuals. One text file per individual is written out with the MST and a _.csv_ file is made in the root folder to have all the MSTs tabulated. All of the output files will be found in the output folder specified in the configuration file, inside of the folder with the corresponding resolution number. There is also going to be a _.done_ file in each individual’s folder. This is to facilitate faster recovery time if something goes wrong. To redo an individual, you must delete this file.
 
 ### Example Output Folder Structure
 ![Example Output Folders](http://i.imgur.com/SrVlTSh.png)
