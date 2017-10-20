@@ -295,7 +295,8 @@ for (pRS in seq_along(resolutions)) {
         sink(file = str_c(file.path(CLHRDirectory, RS), '/', RS, "-Region-MSTs.csv"), append = T)
         cat(c(indivNickname, ",", mstdistance, ",", mstdistance*as.numeric(RS), "\n"))
       }
-      sink.reset()
+      # sink.reset()
+      closeAllConnections()
     }
     cat('The MST distance for', indivNickname, 'is:', mstdistance*as.numeric(RS), "m. # of Indivs: ", numOfIndivs, '\n')
     invisible(file.create(file.path(CLHRDirectory, RS, indivNickname, '/.done')))
